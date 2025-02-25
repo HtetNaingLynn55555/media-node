@@ -102,7 +102,7 @@ let register = async(request, response, next)=>{
 }
 
 let get = async(request, response, next)=>{
-    let users = await DB.find().select('-_id -password -__v ');
+    let users = await DB.find().select('-password -__v ');
     if(users)
     {
         success(response, 200, "Users fetching success", users)
@@ -157,21 +157,85 @@ let create = async(request, response, next)=>{
 }
 
 let update = async(request, response, next)=>{
-    response.json({
-        message : 'get user update'
-    })
+    let user = await DB.findById(request.params.id);
+    if(user)
+    {
+        try
+        {
+            let existingUser = await DB.findOne({
+                $or : [
+                    {name : request.body.name},
+                    {email : request.body.email},
+                    {phone : request.body.phone},
+                ]
+            });
+            
+            if(existingUser)
+            {
+                throw new Error('User with email or phone or name already exist')
+            }
+            else
+            {
+                let updateUser = await DB.findByIdAndUpdate(request.params.id, request.body);
+                
+                if(updateUser)
+                {
+                    success(response, 201, "user update success", updateUser)
+                }
+                else
+                {
+                    next(new Error('user update fail'))
+                }
+            }
+        }
+        catch(error)
+        {
+            next(new Error(error.message))
+        }
+    }
+    else
+    {
+        next(new Error('user not found with that id'))
+    }
 }
 
 let details = async(request, response, next)=>{
-    response.json({
-        message : 'get  user details'
-    })
+    let user = await DB.findById(request.params.id);
+    if(user)
+    {
+        success(response, 200, "user fetching success", user)
+    }
+    else
+    {
+        next(new Error('user fetching fail'));
+    }
 }
 
 let drop = async(request, response, next)=>{
-    response.json({
-        message : 'delete user'
-    })
+    try{
+        if( request["user_id"] == request.params.id)
+        {
+            throw new Error("you cannot delete your self")
+        }
+        else
+        {
+            let user = await DB.findByIdAndDelete(request.params.id);
+            if(user)
+            {
+                success(response, 201, "user delete success", user)
+            }
+            else
+            {
+                next(new Error('user delete fail'))
+            }
+        }
+    }
+    catch(error)
+    {
+        response.json({
+            message : error.message
+        })
+    }
 }
 
 module.exports = {

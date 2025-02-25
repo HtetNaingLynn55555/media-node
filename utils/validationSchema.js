@@ -6,6 +6,9 @@ const validationSchema = {
         password : Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
         email : Joi.string().email().required(),
         phone : Joi.string().required()
+    }),
+    idSchema : Joi.object({
+        id : Joi.string().pattern(new RegExp('^[a-fA-F0-9]{24}$'))
     })
 }
 
