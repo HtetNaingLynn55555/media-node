@@ -4,6 +4,8 @@ let mongoose = require('mongoose');
 let express = require('express')
 let userRouter = require('./routers/user');
 let categoryRouter = require('./routers/category');
+let postRouter = require('./routers/posts');
+
 let app = express();
 
 
@@ -13,7 +15,7 @@ app.use(express.json());
 
 app.use('/users', userRouter);
 app.use('/categories', categoryRouter);
-
+app.use('/posts', postRouter);
 
 app.use((error, request, response, next)=>{
 
