@@ -34,9 +34,32 @@ let idSchemaValidation = (schema)=>{
     }
 }
 
+let postBodyValidation = (schema)=>{
+    return (request, response, next)=>{
+        request.body.user_id = request['user_id'].toString();
+        let obj = {
+            user_id : request.body.user_id,
+            category_id : request.body.category_id,
+            content : request.body.content,
+            title : request.body.title,
+        }
+        let {error, value} = schema.validate(obj);
+        if(error)
+        {
+            response.json({
+                message : error.details
+            })
+        }
+        else
+        {
+            next();
+        }
+    }
 
+}
 
 module.exports = {
     bodyValidation,
     idSchemaValidation,
+    postBodyValidation,
 }
