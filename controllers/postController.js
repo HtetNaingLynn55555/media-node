@@ -10,7 +10,8 @@ let all = async(request, response, next)=>{
 
 let create = async(request, response, next)=>{
     response.json({
-        message : 'create'
+        message : 'post create',
+        data : request.body.image,
     })
 }
 

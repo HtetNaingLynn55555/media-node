@@ -1,4 +1,5 @@
 let bcrypt = require('bcryptjs');
+let fs = require('fs')
 let jwt  = require('jsonwebtoken');
 let DB = require('../models/user');
 
@@ -69,10 +70,29 @@ let tokenValidation = async(request, response, next)=>{
     }
 }
 
+let uploadImage = async(request, response, next)=>{
+    let file = request.files;
+    if(file)
+    {
+        let imageData = file.image;
+        let newFileName =  Date.now().toString() +"_"+ Math.floor(Math.random() * 99999) + imageData.name;
+        imageData.mv(`./images/${newFileName}`)
+        request.body['image'] = newFileName;
+        next();
+
+    }
+    else
+    {
+        next();
+    }
+    
+}
+
 module.exports = {
     success,
     hashPassword,
     comparePassword,
     tokenGenearte,
     tokenValidation,
+    uploadImage,
 }

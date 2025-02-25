@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 let mongoose = require('mongoose');
-let express = require('express')
+let express = require('express');
+let fileUpload = require('express-fileupload');
 let userRouter = require('./routers/user');
 let categoryRouter = require('./routers/category');
 let postRouter = require('./routers/posts');
@@ -11,6 +12,7 @@ let app = express();
 
 mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DB}`)
 
+app.use(fileUpload());
 app.use(express.json());
 
 app.use('/users', userRouter);
