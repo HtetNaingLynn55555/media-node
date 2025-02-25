@@ -14,7 +14,7 @@ let login = async(request, response, next)=>{
             if(comparePassword(request.body.password, user.password))
             {
                
-                let token = tokenGenearte({data :user._id}, process.env.SECREAT_KEY, {expiresIn: "1h"});
+                let token = tokenGenearte({data :user._id}, process.env.SECREAT_KEY, {expiresIn: "10h"});
                 if(token)
                 {
                     success(response, 200, "login success", token)
