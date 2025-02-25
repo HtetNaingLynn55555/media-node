@@ -3,7 +3,7 @@ require('dotenv').config()
 let mongoose = require('mongoose');
 let express = require('express')
 let userRouter = require('./routers/user');
-
+let categoryRouter = require('./routers/category');
 let app = express();
 
 
@@ -11,7 +11,8 @@ mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DB}`)
 
 app.use(express.json());
 
-app.use('/users', userRouter)
+app.use('/users', userRouter);
+app.use('/categories', categoryRouter);
 
 
 app.use((error, request, response, next)=>{
