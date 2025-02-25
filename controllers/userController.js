@@ -1,3 +1,4 @@
+const { response } = require('express');
 let DB = require('../models/user');
 let {success, hashPassword, comparePassword, tokenGenearte} = require('../utils/Helper');
 
@@ -100,8 +101,85 @@ let register = async(request, response, next)=>{
    }
 }
 
+let get = async(request, response, next)=>{
+    let users = await DB.find().select('-_id -password -__v ');
+    if(users)
+    {
+        success(response, 200, "Users fetching success", users)
+    }
+    else
+    {
+        next(new Error('User fetching wrong'))
+    }
+}
+
+let create = async(request, response, next)=>{
+    try
+    {
+        let existingUser = await DB.findOne({
+            $or : [
+                {name : request.body.name},
+                {email : request.body.email},
+                {phone : request.body.phone}
+            ]
+        });
+
+        if(existingUser)
+        {
+            return response.status(404).json({
+                message : "user name or email or phone already used"
+            })
+        }
+        else
+        {
+            let encodedPassword = hashPassword(request.body.password);
+            request.body.password = encodedPassword;
+
+            let newUser = await DB.create(request.body);
+            if(newUser)
+            {
+                success(response, 201, 'user create success', newUser)
+            }
+            else
+            {
+                next(new Error('user create fail'))
+            }
+
+
+        }
+    
+
+    }
+    catch(error)
+    {
+        next(new Error("User create Error "))
+    }
+}
+
+let update = async(request, response, next)=>{
+    response.json({
+        message : 'get user update'
+    })
+}
+
+let details = async(request, response, next)=>{
+    response.json({
+        message : 'get  user details'
+    })
+}
+
+let drop = async(request, response, next)=>{
+    response.json({
+        message : 'delete user'
+    })
+}
 
 module.exports = {
     login,
-    register
+    register,
+    get,
+    create,
+    update,
+    details,
+    drop,
 }

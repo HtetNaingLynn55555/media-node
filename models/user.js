@@ -8,6 +8,7 @@ let userSchema = new Schema({
     password : {type : String, required: true},
     phone : {type : String, required: true},
     created_at: { type: Date, default: Date.now },
+    image : {type : String},
 })
 
 let User = mongoose.model('user', userSchema);
