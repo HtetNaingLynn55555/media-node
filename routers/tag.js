@@ -8,7 +8,7 @@ router.get('/', tokenValidation, tagController.all);
 router.post('/', tokenValidation, bodyValidation(tagSchema), tagController.create);
 router.route('/:id')
         .get( tokenValidation, idSchemaValidation(idSchema), tagController.details)
-        .patch(tokenValidation, idSchemaValidation(idSchema), tagController.update)
+        .patch(tokenValidation, idSchemaValidation(idSchema), bodyValidation(tagSchema), tagController.update)
         .delete(tokenValidation, idSchemaValidation(idSchema), tagController.drop);
 
 module.exports = router;

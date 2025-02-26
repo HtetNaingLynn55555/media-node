@@ -49,7 +49,32 @@ let details = async(request, response, next)=>{
 }
 
 let update = async(request, response, next)=>{
-
+    let existingTag = await DB.findOne({name : request.body.name})
+    if(!existingTag)
+    {
+        let tag = await DB.findById(request.params.id);
+        if(tag)
+        {
+            let updateTag = await DB.findByIdAndUpdate(tag._id, request.body);
+            if(updateTag)
+            {
+                let data = await DB.findById(updateTag._id);
+                success(response, 201, 'update done', data);
+            }
+            else
+            {
+                next(new Error('update fail'))
+            }
+        }
+        else
+        {
+            next(new Error('cannot find with given id'))
+        }
+    }
+    else
+    {
+        next(new Error('existing tag name'))
+    }
 }
 
 let drop = async(request, response, next)=>{
