@@ -1,11 +1,14 @@
 let router = require('express').Router()
 let tagController = require('../controllers/tagController');
+let {tokenValidation} = require('../utils/Helper');
+let {idSchemaValidation, bodyValidation} = require('../utils/validation')
+let {idSchema} = require('../utils/validationSchema')
 
-router.get('/', tagController.all);
+router.get('/', tokenValidation, tagController.all);
 router.post('/', tagController.create);
 router.route('/:id')
-        .get(tagController.details)
-        .patch(tagController.update)
-        .delete(tagController.drop);
+        .get( tokenValidation, idSchemaValidation(idSchema), tagController.details)
+        .patch(tokenValidation, idSchemaValidation(idSchema), tagController.update)
+        .delete(tokenValidation, idSchemaValidation(idSchema), tagController.drop);
 
 module.exports = router;
