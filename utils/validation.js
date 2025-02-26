@@ -18,7 +18,6 @@ let idSchemaValidation = (schema)=>{
     return (request, response, next)=>{
         let obj = {};
         obj = request.params;
-        console.log('obj', obj)
         let {error, value} = schema.validate(obj); 
         if(error)
         {
