@@ -10,5 +10,6 @@ router.route('/:id')
         .get(tokenValidation, idSchemaValidation(idSchema), postController.details)
         .patch(tokenValidation, idSchemaValidation(idSchema), uploadImage, postController.update)
         .delete(tokenValidation, idSchemaValidation(idSchema), postController.drop)
-
+router.get('/byCategory/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByCategory);
+router.get('/byUser/:id',tokenValidation, idSchemaValidation(idSchema), postController.postByUser);
 module.exports = router;

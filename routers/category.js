@@ -11,7 +11,6 @@ router.route('/:id')
         .patch(tokenValidation, idSchemaValidation(idSchema),categoryController.update)
         .delete( tokenValidation, idSchemaValidation(idSchema), categoryController.drop);
 
-router.get('/byCategory/:id', tokenValidation, idSchemaValidation(idSchema), categoryController.postByCategory);
-router.get('/byUser/:id',tokenValidation, idSchemaValidation(idSchema), categoryController.postByUser);
+
 
 module.exports = router;

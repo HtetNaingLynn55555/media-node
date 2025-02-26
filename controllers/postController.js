@@ -108,11 +108,29 @@ let drop = async(request, response, next)=>{
 }
 
 let postByCategory = async(request, response, next)=>{
+    
+    let post = await DB.find({category_id : request.params.id}).populate('user_id category_id');
+    if(post)
+    {
+        success(response, 200, 'post fetching success', post)
 
+    }
+    else
+    {
+        next(new Error('post not found with given id'))
+    }
 }
 
 let postByUser = async(request, response, next)=>{
-    
+    let post = await DB.find({user_id : request.params.id}).populate('user_id category_id');
+    if(post)
+    {
+        success(response, 200, 'post fetching success', post);
+    }
+    else
+    {
+        next(new Error('post not found with given id'))
+    }
 }
 
 module.exports = {
