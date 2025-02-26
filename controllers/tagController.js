@@ -37,7 +37,15 @@ let create = async(request, response, next)=>{
 }
 
 let details = async(request, response, next)=>{
-
+    let tag = await DB.findById(request.params.id);
+    if(tag)
+    {
+        success(response, 200, 'tag details fetching success', tag)
+    }
+    else
+    {
+        next(new Error('Cannot find tag with given id'))
+    }
 }
 
 let update = async(request, response, next)=>{
