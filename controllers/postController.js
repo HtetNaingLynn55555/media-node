@@ -27,9 +27,15 @@ let create = async(request, response, next)=>{
 }
 
 let details = async(request, response, next)=>{
-    response.json({
-        messager :'details'
-    })
+    let post = await DB.findById(request.params.id).populate('user_id category_id').select("-__v");
+    if(post)
+    {
+        success(response, 200, 'post fetching success', post)
+    }
+    else
+    {
+        next(new Error('post not found'))
+    }
 }
 
 let update = async(request, response, next)=>{
