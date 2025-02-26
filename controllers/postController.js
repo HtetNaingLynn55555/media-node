@@ -107,6 +107,13 @@ let drop = async(request, response, next)=>{
     }
 }
 
+let postByCategory = async(request, response, next)=>{
+
+}
+
+let postByUser = async(request, response, next)=>{
+    
+}
 
 module.exports = {
     all,
@@ -114,4 +121,6 @@ module.exports = {
     update,
     drop,
     details,
+    postByCategory,
+    postByUser
 }
