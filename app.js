@@ -7,6 +7,7 @@ let userRouter = require('./routers/user');
 let categoryRouter = require('./routers/category');
 let postRouter = require('./routers/posts');
 let tagRouter = require('./routers/tag');
+let commentRouter = require('./routers/comment');
 
 let app = express();
 
@@ -20,6 +21,7 @@ app.use('/users', userRouter);
 app.use('/categories', categoryRouter);
 app.use('/posts', postRouter);
 app.use('/tags', tagRouter);
+app.use('/comments', commentRouter);
 
 app.use((error, request, response, next)=>{
 
