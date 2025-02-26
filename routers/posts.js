@@ -8,7 +8,7 @@ router.get('/',tokenValidation, postController.all)
 router.post('/', tokenValidation, uploadImage, postBodyValidation(postSchema), postController.create)
 router.route('/:id')
         .get(tokenValidation, idSchemaValidation(idSchema), postController.details)
-        .patch(tokenValidation, postController.update)
-        .delete(tokenValidation,idSchemaValidation(idSchema), postController.drop)
+        .patch(tokenValidation, idSchemaValidation(idSchema), uploadImage, postController.update)
+        .delete(tokenValidation, idSchemaValidation(idSchema), postController.drop)
 
 module.exports = router;
