@@ -1,6 +1,7 @@
 let DB = require('../models/tag');
 let {success} = require('../utils/Helper');
 
+
 let all = async(request, response, next)=>{
     let tags = await DB.find();
     if(tags)
