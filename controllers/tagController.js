@@ -15,7 +15,25 @@ let all = async(request, response, next)=>{
 }
 
 let create = async(request, response, next)=>{
+    let existingTag = await DB.findOne({name : request.body.name});
 
+   
+    if(!existingTag)
+    {
+        let tag = await DB.create(request.body);
+        if(tag)
+        {
+            success(response, 201, 'tag create success', tag);
+        }
+        else
+        {
+            next(new Error('tag create fail'));
+        }
+        
+    }
+    else{
+        next(new Error('tag name is already exist'))
+    }
 }
 
 let details = async(request, response, next)=>{
