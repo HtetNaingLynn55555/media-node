@@ -1,5 +1,5 @@
 let DB = require('../models/post');
-let {success} = require('../utils/Helper');
+let {success, deleteImage} = require('../utils/Helper');
 
 
 let all = async(request, response, next)=>{
@@ -45,10 +45,19 @@ let update = async(request, response, next)=>{
 }
 
 let drop = async(request, response, next)=>{
-    response.json({
-        message : 'drop'
+    let post = await DB.findById(request.params.id);
+    if(post)
+    {
+        let deleteImagePath = `./images/${post.image}`;
+        await deleteImage(deleteImagePath);
+        let imgdelete = await DB.findByIdAndDelete(post._id);
+        success(response, 201, 'image delete success', imgdelete)
+
     }
-    )
+    else
+    {
+        next(new Error('post not found with given id'))
+    }
 }
 
 

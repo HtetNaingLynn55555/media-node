@@ -9,6 +9,6 @@ router.post('/', tokenValidation, uploadImage, postBodyValidation(postSchema), p
 router.route('/:id')
         .get(tokenValidation, idSchemaValidation(idSchema), postController.details)
         .patch(tokenValidation, postController.update)
-        .delete(tokenValidation, postController.drop)
+        .delete(tokenValidation,idSchemaValidation(idSchema), postController.drop)
 
 module.exports = router;

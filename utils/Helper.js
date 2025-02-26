@@ -88,6 +88,11 @@ let uploadImage = async(request, response, next)=>{
     
 }
 
+let deleteImage = async(filepath)=>{
+    await fs.unlinkSync(filepath);
+
+}
+
 module.exports = {
     success,
     hashPassword,
@@ -95,4 +100,5 @@ module.exports = {
     tokenGenearte,
     tokenValidation,
     uploadImage,
+    deleteImage,
 }
