@@ -39,9 +39,56 @@ let details = async(request, response, next)=>{
 }
 
 let update = async(request, response, next)=>{
-    response.json({
-        message : 'update'
-    })
+    try
+    {
+        let post = await DB.findById(request.params.id);
+        if(post)
+        {
+            let image = request.body.image;
+            if(image)
+            {
+                let deleteImagePath = `./images/${post.image}`;
+                await deleteImage(deleteImagePath)
+               
+                let updatePost = await DB.findByIdAndUpdate(request.params.id, request.body);
+                
+                if(updatePost)
+                {
+                    let data = await DB.findById(updatePost._id);
+                    success(response, 201, 'post update success', data);
+                }   
+                else
+                {
+                    next(new Error('post update fail'))
+                }
+            }
+            else
+            {
+                
+
+                let updatePost = await DB.findByIdAndUpdate(request.params.id, request.body);
+                if(updatePost)
+                {
+                    let data = await DB.findById(updatePost._id);
+                    success(response, 201, "post update success", data)
+                }
+                else
+                {
+                    next(new Error('post update fail'));
+                }
+
+            }
+            
+        }
+        else
+        {
+            throw new Error('post not found with given id')
+        }
+    }
+    catch(error)
+    {
+        next(new Error(error.message))
+    }
 }
 
 let drop = async(request, response, next)=>{
