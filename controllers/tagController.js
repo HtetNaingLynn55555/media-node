@@ -78,7 +78,15 @@ let update = async(request, response, next)=>{
 }
 
 let drop = async(request, response, next)=>{
-
+    let tag = await DB.findByIdAndDelete(request.params.id)
+    if(tag)
+    {
+        success(response, 201, "tag delete success", tag)
+    }
+    else
+    {
+        next(new Error('cannot delete tag'));
+    }
 }
 
 module.exports = {
