@@ -24,7 +24,10 @@ const validationSchema = {
 
     }),
     commentSchema : Joi.object({
-        
+        name : Joi.string().required(),
+        email : Joi.string().email().required(),
+        post_id : Joi.string().pattern(new RegExp('^[a-fA-F0-9]{24}$')),
+        content : Joi.string().required()
     })
 }
 
