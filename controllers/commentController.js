@@ -26,7 +26,16 @@ let create = async(request, response, next)=>{
 }
 
 let update = async(request, response, next)=>{
-
+    let existingComment = await DB.findById(request.params.id);
+    if(existingComment)
+    {
+        let updateComment = await DB.findByIdAndUpdate(existingComment._id, request.body);
+        success(response, 201, 'comment update success', updateComment)
+    }
+    else
+    {
+        next(new Error('cannot find the comment with given id'))
+    }
 }
 
 let drop = async(request, response, next)=>{

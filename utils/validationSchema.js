@@ -28,6 +28,9 @@ const validationSchema = {
         email : Joi.string().email().required(),
         post_id : Joi.string().pattern(new RegExp('^[a-fA-F0-9]{24}$')),
         content : Joi.string().required()
+    }),
+    updateCommentSchema : Joi.object({
+        content : Joi.string().required(),
     })
 }
 
