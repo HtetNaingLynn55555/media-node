@@ -6,7 +6,7 @@ let {idSchema, commentSchema} = require('../utils/validationSchema')
 
 router.get('/', commentController.all);
 router.post('/', bodyValidation(commentSchema), commentController.create);
-router.route('/:')
+router.route('/:id')
         .patch(idSchemaValidation(idSchema), commentController.update)
         .delete(idSchemaValidation(idSchema), commentController.drop);
 
