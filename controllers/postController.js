@@ -1,3 +1,4 @@
+const { request } = require('express');
 let DB = require('../models/post');
 let {success, deleteImage} = require('../utils/Helper');
 
@@ -145,6 +146,29 @@ let postByTag = async(request, response, next)=>{
     }
 }
 
+let paginate = async(request, response, next)=>{
+    
+    let page = request.params.page;
+    let start = page == 1 ? 0 : (page-1);
+    let limit = parseInt( process.env.POST_LIMIT ) ;
+    let skipCount = start * limit;
+
+    let posts = await DB.find().skip(skipCount).limit(limit);
+
+    if(posts)
+    {
+        success(response, 200, "post fetching paginate", posts)
+    }
+    else
+    {
+        next(new Error('post fetching fail'))
+    }
+
+
+
+    
+}
+
 module.exports = {
     all,
     create,
@@ -153,5 +177,6 @@ module.exports = {
     details,
     postByCategory,
     postByUser,
-    postByTag
+    postByTag,
+    paginate
 }

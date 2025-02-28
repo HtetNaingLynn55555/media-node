@@ -32,6 +32,9 @@ const validationSchema = {
     }),
     updateCommentSchema : Joi.object({
         content : Joi.string().required(),
+    }),
+    pageSchema : Joi.object({
+        page : Joi.number().required()
     })
 }
 

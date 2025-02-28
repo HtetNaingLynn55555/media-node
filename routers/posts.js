@@ -1,7 +1,7 @@
 let postController = require('../controllers/postController')
 let router = require('express').Router();
 let { tokenValidation, uploadImage } = require('../utils/Helper');
-let {postSchema, idSchema} = require('../utils/validationSchema');
+let {postSchema, idSchema, pageSchema} = require('../utils/validationSchema');
 let {postBodyValidation, idSchemaValidation} = require('../utils/validation');
 
 router.get('/',tokenValidation, postController.all)
@@ -12,5 +12,6 @@ router.route('/:id')
         .delete(tokenValidation, idSchemaValidation(idSchema), postController.drop)
 router.get('/byCategory/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByCategory);
 router.get('/byUser/:id',tokenValidation, idSchemaValidation(idSchema), postController.postByUser);
-router.get('/byTag/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByTag )
+router.get('/byTag/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByTag );
+router.get('/paginate/:page', tokenValidation, idSchemaValidation(pageSchema), postController.paginate )
 module.exports = router;
