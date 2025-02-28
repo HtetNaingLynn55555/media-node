@@ -41,6 +41,7 @@ let postBodyValidation = (schema)=>{
             category_id : request.body.category_id,
             content : request.body.content,
             title : request.body.title,
+            tag : request.body.tag
         }
         let {error, value} = schema.validate(obj);
         if(error)

@@ -12,4 +12,5 @@ router.route('/:id')
         .delete(tokenValidation, idSchemaValidation(idSchema), postController.drop)
 router.get('/byCategory/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByCategory);
 router.get('/byUser/:id',tokenValidation, idSchemaValidation(idSchema), postController.postByUser);
+router.get('/byTag/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByTag )
 module.exports = router;

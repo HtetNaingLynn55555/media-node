@@ -18,7 +18,7 @@ const validationSchema = {
         category_id :Joi.string().pattern(new RegExp('^[a-fA-F0-9]{24}$')).required(),
         title : Joi.string().min(3).max(200).required(),
         content : Joi.string().required(),
-        tag : Joi.string().pattern(new RegExp('^[a-fA-F0-9]{24}$'))
+        tag : Joi.string().pattern(new RegExp('^[a-fA-F0-9]{24}$')).required()
     }),
     tagSchema : Joi.object({
         name : Joi.string().min(3).max(30).required(),

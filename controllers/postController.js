@@ -3,7 +3,7 @@ let {success, deleteImage} = require('../utils/Helper');
 
 
 let all = async(request, response, next)=>{
-    let posts = await DB.find().populate('user_id category_id').select('-__v ');
+    let posts = await DB.find().populate('user_id category_id tag').select('-__v ');
     if(posts)
     {
         success(response, 200, "post fetching success", posts)
@@ -133,6 +133,18 @@ let postByUser = async(request, response, next)=>{
     }
 }
 
+let postByTag = async(request, response, next)=>{
+    let postByTagExist = await DB.find({tag : request.params.id}).populate('tag user_id category_id');
+    if(postByTagExist)
+    {
+        success(response, 200, 'post by tag available', postByTagExist)
+    }
+    else
+    {
+        next(new Error('no post available'))
+    }
+}
+
 module.exports = {
     all,
     create,
@@ -140,5 +152,6 @@ module.exports = {
     drop,
     details,
     postByCategory,
-    postByUser
+    postByUser,
+    postByTag
 }
