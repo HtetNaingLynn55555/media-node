@@ -1,5 +1,6 @@
 const { request } = require('express');
 let DB = require('../models/post');
+let Comment = require("../models/comment")
 let {success, deleteImage} = require('../utils/Helper');
 
 
@@ -29,6 +30,9 @@ let create = async(request, response, next)=>{
 
 let details = async(request, response, next)=>{
     let post = await DB.findById(request.params.id).populate('user_id category_id').select("-__v");
+    let comments = await Comment.find({post_id : post._id});
+    post = post.toObject();
+    post["comments"] = comments;
     if(post)
     {
         success(response, 200, 'post fetching success', post)
