@@ -29,7 +29,7 @@ let create = async(request, response, next)=>{
 }
 
 let details = async(request, response, next)=>{
-    let post = await DB.findById(request.params.id).populate('user_id category_id').select("-__v");
+    let post = await DB.findById(request.params.id).populate('user_id category_id', '-password -__v -created_at').select("-__v -created_at");
     let comments = await Comment.find({post_id : post._id});
     post = post.toObject();
     post["comments"] = comments;
