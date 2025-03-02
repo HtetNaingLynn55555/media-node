@@ -13,5 +13,6 @@ router.route('/:id')
 router.get('/byCategory/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByCategory);
 router.get('/byUser/:id',tokenValidation, idSchemaValidation(idSchema), postController.postByUser);
 router.get('/byTag/:id', tokenValidation, idSchemaValidation(idSchema), postController.postByTag );
-router.get('/paginate/:page', tokenValidation, idSchemaValidation(pageSchema), postController.paginate )
+router.get('/paginate/:page', tokenValidation, idSchemaValidation(pageSchema), postController.paginate );
+router.get('/toggleLike/:id/:likeOrNot', tokenValidation, postController.toggleLike)
 module.exports = router;

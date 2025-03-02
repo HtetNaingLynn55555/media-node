@@ -173,6 +173,41 @@ let paginate = async(request, response, next)=>{
     
 }
 
+
+let toggleLike = async(request, response, next)=>{
+    let post = await DB.findById(request.params.id);
+    if(post)
+    {   
+        console.log('request', request.params.likeOrNot)
+        if(request.params.likeOrNot == 1)
+        {
+            post.like = post.like+1;
+
+        }
+        else if(request.params.likeOrNot == 0)
+        {
+            post.like = post.like - 1;
+        }
+
+        let data = await DB.findByIdAndUpdate(post._id, post);
+        data = await DB.findById(data._id)
+        if(data)
+        {
+            success(response, 201, "post update done", data)
+
+        }
+        else
+        {
+            next(new Error('cannot like or unlike this post'))
+        }
+
+    }
+    else
+    {
+        next(new Error('post not found'))
+    }
+}
+
 module.exports = {
     all,
     create,
@@ -182,5 +217,6 @@ module.exports = {
     postByCategory,
     postByUser,
     postByTag,
-    paginate
+    paginate,
+    toggleLike
 }
